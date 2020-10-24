@@ -1,0 +1,12 @@
+#Makefile
+Makefile
+
+#Carpetas de prueba
+casos/
+salidas/
+
+#Archivos objeto
+*.o
+
+#Extras
+*.zip
