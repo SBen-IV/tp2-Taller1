@@ -4,9 +4,15 @@ Makefile
 #Carpetas de prueba
 casos/
 salidas/
+Tests/
 
 #Archivos objeto
 *.o
+*.o-tsan
+
+#Ejecutables
+tp
+tp-tsan
 
 #Extras
 *.zip
