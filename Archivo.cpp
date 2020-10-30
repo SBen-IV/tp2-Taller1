@@ -1,7 +1,7 @@
 #include "Archivo.h"
 
 Archivo::Archivo(const std::string nombre, std::ios_base::openmode modo) : 
-					nombre_archivo(nombre, modo) {
+					nombre_archivo(nombre) {
 	this->archivo.open(this->nombre_archivo, modo);
 }
 

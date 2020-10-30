@@ -2,8 +2,7 @@
 
 Repositorio::Repositorio() {}
 
-void Repositorio::agregar(const std::string nombre) {
-
+void Repositorio::agregar(const std::string& nombre) {
 	this->nombres.push(nombre);
 }
 
@@ -16,7 +15,7 @@ bool Repositorio::estaVacio() const {
 }
 
 std::string Repositorio::obtener() {
-	std::string aux = this->nombres.back();
+	std::string aux = this->nombres.front();
 	this->nombres.pop();
 
 	return aux;

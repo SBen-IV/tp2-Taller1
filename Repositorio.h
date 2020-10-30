@@ -10,7 +10,7 @@ private:
 public:
 	Repositorio();
 	Repositorio(Repositorio&& otro);
-	void agregar(const std::string nombre);
+	void agregar(const std::string& nombre);
 	bool estaVacio() const;
 	std::string obtener();
 	~Repositorio();

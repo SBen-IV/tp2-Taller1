@@ -1,22 +1,23 @@
 #include <iostream>
 #include <string>
 #include "Repositorio.h"
-#include "Archivo.h"
 #include "eBPF.h"
 
 #define POS_INICIAL 2
 
-static void desarrollar_ebpf(Repositorio nombres_archivos) {
+static void desarrollar_ebpf(Repositorio& nombres_archivos) {
 
-	while (nombres_archivos.estaVacio()) {
-		Archivo archivo(nombres_archivos.obtener(), std::fstream::in);
+	while (!nombres_archivos.estaVacio()) {
+		std::string nombre_archivo_actual = nombres_archivos.obtener();
 
-		eBPF handler;
+		eBPF filtro;
 
-		handler.analizar(std::move(archivo));
+		filtro.analizar(nombre_archivo_actual);
+	//	int tipo = filtro.analizar(nombre_archivo_actual);
+	// TODO:
+	//	objeto_compartido_2.agregar(nombre_archivo_actual, tipo);
 	}
 }
-
 
 int main(int argc, char const *argv[]) {
 
@@ -31,7 +32,7 @@ int main(int argc, char const *argv[]) {
 		nombres_archivos.agregar(argv[i]);
 	}
 	
-	desarrollar_ebpf(std::move(nombres_archivos));
+	desarrollar_ebpf(nombres_archivos);
 
 	return 0;
 }

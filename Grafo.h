@@ -14,8 +14,8 @@ private:
 public:
 	Grafo();
 	Grafo(const Grafo& grafo) = delete;
-	void agregarNodo(std::string nodo);
-	void agregarAristaDeA(std::string nodo_1, std::string nodo_2);
+	void agregarNodo(const std::string& nodo);
+	void agregarArista(const std::string& nodo_1, const std::string& nodo_2);
 	~Grafo();
 	
 };

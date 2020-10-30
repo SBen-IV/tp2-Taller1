@@ -4,14 +4,15 @@
 
 Grafo::Grafo() {}
 
-void Grafo::agregarNodo(const std::string nodo) {
+void Grafo::agregarNodo(const std::string& nodo) {
 	if (this->grafo.count(nodo) == NO_EXISTE) {
 		Lista lista_de_aristas = {};
 		this->grafo[nodo] = std::move(lista_de_aristas);
 	}
 }
 
-void Grafo::agregarAristaDeA(std::string nodo_1, std::string nodo_2) {
+void Grafo::agregarArista(const std::string& nodo_1,
+							const std::string& nodo_2) {
 	if (this->grafo.count(nodo_1) == NO_EXISTE ||
 		this->grafo.count(nodo_2) == NO_EXISTE) return;
 
