@@ -12,8 +12,9 @@ static void desarrollar_ebpf(Repositorio& nombres_archivos) {
 
 		eBPF filtro;
 
-		filtro.analizar(nombre_archivo_actual);
-	//	int tipo = filtro.analizar(nombre_archivo_actual);
+		int resultado = filtro.analizar(nombre_archivo_actual);
+
+		std::cout << resultado << " " + nombre_archivo_actual << std::endl;
 	// TODO:
 	//	objeto_compartido_2.agregar(nombre_archivo_actual, tipo);
 	}

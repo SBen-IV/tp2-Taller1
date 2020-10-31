@@ -1,85 +1,62 @@
 #include "AnalizadorInstruccion.h"
+#include "Instruccion.h"
 
 #define RET_OPCODE "ret"
 #define VACIO ""
 
-#define OTRO 0
-#define JMP 1
-#define RET 2
+std::size_t obtenerEtiqueta(const std::string& linea, std::string& etiqueta) {
+	std::size_t pos_fin = linea.find(':');
 
-typedef std::vector<std::string> VectorString;
-
-const VectorString JUMP_OPCODE = {"jmp", "ja", "jeq",\
-									"jneq", "jne", "jlt",\
-									"jle", "jgt", "jge", "jset"};
-const std::size_t LARGO_JMP = JUMP_OPCODE.size();
-
-static void separar(const std::string& linea,
-					VectorString& instruccion_separada) {
-	std::size_t pos_inicio = linea.find_first_not_of(' '),
-				pos_fin = linea.find(' ', pos_inicio);
-
-	instrucciones.push_back(linea.substr(pos_inicio, pos_fin-pos_inicio));
-
-	while (pos_fin != std::string::npos) {
-		pos_inicio = linea.find_first_not_of(' ', pos_fin);
-		pos_fin = linea.find(' ', pos_inicio);
-		instrucciones.push_back(linea.substr(pos_inicio, pos_fin-pos_inicio));
-	}
-}
-
-static void limpiar(VectorString& instruccion_separada) {
-
-	for(; iterador != instrucciones.end(); ++iterador) {
-		if ((*iterador)[(*iterador).length()-1] == ':') {
-			aux.push_back((*iterador).substr(0, (*iterador).length()-1));
-
-		} else if (((*iterador)[0] != '#') && ((*iterador)[0] != '[')) {
-			if ((*iterador)[(*iterador).length()-1] == ',') {
-				aux.push_back((*iterador).substr(0, (*iterador).length()-1));
-			} else {
-				aux.push_back((*iterador));
-			}
-		}
-	}
-}
-
-static bool esJmp(const std::string& opcode) {
-	bool es_jmp = false;
-	std::size_t i = 0;
-
-	while (i < LARGO_JMP && !es_jmp) {
-		if (JUMP_OPCODE[i] == opcode) es_jmp = true;
-		i++;
+	if (pos_fin == std::string::npos) {
+		etiqueta = VACIO;
+		pos_fin = linea.find_first_not_of(' ');
+	} else {
+		etiqueta = linea.substr(0, pos_fin);
+		pos_fin = linea.find_first_not_of(' ', pos_fin + 1);
 	}
 
-	return es_jmp;
+	return pos_fin;
 }
 
-static bool esRet(const std::string& opcode) {
-	return (opcode == RET_OPCODE);
+std::size_t obtenerOpcode(const std::string& linea, std::string& opcode) {
+	std::size_t pos_fin = linea.find(' ');
+
+	if (pos_fin == std::string::npos) {
+		opcode = linea.substr();
+		pos_fin = linea.length() - 1;
+	} else {
+		opcode = linea.substr(0, pos_fin);
+		pos_fin = linea.find_first_not_of(' ', pos_fin);
+	}
+
+	return pos_fin;
 }
+
+void obtenerSaltos(const std::string& linea,
+					std::list<std::string>& argumentos) {
+	std::size_t pos_inicio = 0, pos_fin = linea.find(',');
+
+	do {
+		argumentos.push_back(linea.substr(pos_inicio, pos_fin-pos_inicio));
+		pos_inicio = linea.find_first_not_of(", ", pos_fin);
+		pos_fin = linea.find(',', pos_inicio);
+	} while (pos_inicio != std::string::npos);
+}
+
 
 Instruccion AnalizadorInstruccion::identificar(const std::string& linea) {
 
-	VectorString instruccion_separada;
+	std::string etiqueta, opcode;
+	std::list<std::string> argumentos;
+	std::size_t pos_inicio = 0;
 
-	separar(linea, instruccion_separada);
+	pos_inicio += obtenerEtiqueta(linea, etiqueta);
+	pos_inicio += obtenerOpcode(&linea[pos_inicio], opcode);
+	obtenerSaltos(&linea[pos_inicio], argumentos);
 
-	limpiar(instruccion_separada);
+	Instruccion instruccion(linea, etiqueta, opcode, argumentos);
 
-	if (esJmp(instruccion_separada[1])) {
-		Jmp instruccion(instruccion_separada[0], instruccion_separada[1]
-						instruccion_separada[2]);
-	} else if (esRet(instruccion_separada[1])) {
-		Ret instruccion(instruccion_separada[0], instruccion_separada[1]
-						instruccion_separada[2]);
-	} else {
-		Otro instruccion(instruccion_separada[0], instruccion_separada[1]
-						instruccion_separada[2]);
-	}
-
-	return std::move(instruccion);
+	return instruccion;
 }
 
 AnalizadorInstruccion::AnalizadorInstruccion() {}
