@@ -2,10 +2,12 @@
 #include <string>
 #include "Repositorio.h"
 #include "eBPF.h"
+#include "Resultado.h"
 
 #define POS_INICIAL 2
 
-static void desarrollar_ebpf(Repositorio& nombres_archivos) {
+static void desarrollar_ebpf(Repositorio& nombres_archivos,
+							Resultado& resultados) {
 
 	while (!nombres_archivos.estaVacio()) {
 		std::string nombre_archivo_actual = nombres_archivos.obtener();
@@ -14,9 +16,7 @@ static void desarrollar_ebpf(Repositorio& nombres_archivos) {
 
 		int resultado = filtro.analizar(nombre_archivo_actual);
 
-		std::cout << resultado << " " + nombre_archivo_actual << std::endl;
-	// TODO:
-	//	objeto_compartido_2.agregar(nombre_archivo_actual, tipo);
+		resultados.agregar(nombre_archivo_actual, resultado);
 	}
 }
 
@@ -33,7 +33,10 @@ int main(int argc, char const *argv[]) {
 		nombres_archivos.agregar(argv[i]);
 	}
 	
-	desarrollar_ebpf(nombres_archivos);
+	Resultado resultados;
+	desarrollar_ebpf(nombres_archivos, resultados);
+
+	resultados.imprimir();
 
 	return 0;
 }

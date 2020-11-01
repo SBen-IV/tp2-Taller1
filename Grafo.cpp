@@ -39,10 +39,14 @@ static bool esNodoAnterior(const std::string& nodo,
 	return resultado;
 }
 
-static int dfs(Hash& grafo, const std::string& nodo,
+static void dfs(Hash& grafo, const std::string& nodo,
 				std::unordered_map<std::string, bool>& visitados,
-				std::vector<std::string>& anteriores) {
-	if (esNodoAnterior(nodo, anteriores)) return BUCLE;
+				std::vector<std::string>& anteriores,
+				bool* tiene_ciclo) {
+	if (esNodoAnterior(nodo, anteriores)) {
+		*tiene_ciclo = true;
+		return;
+	}
 
 	visitados[nodo] = true;
 	anteriores.push_back(nodo);
@@ -52,23 +56,25 @@ static int dfs(Hash& grafo, const std::string& nodo,
 	Lista::iterator it_aristas = aristas.begin();
 
 	for(; it_aristas != aristas.end(); ++it_aristas) {
-		if (visitados.count((*it_aristas)) == NO_EXISTE) {
-			return dfs(grafo, (*it_aristas), visitados, anteriores);
-		}
+		//if (visitados.count((*it_aristas)) == NO_EXISTE) {
+			dfs(grafo, (*it_aristas), visitados, anteriores, tiene_ciclo);
+		//}
 	}
 
 	anteriores.pop_back();
-
-	return OK;
 }
 
 int Grafo::aplicarDFS() {
 	std::vector<std::string> anteriores;
 	std::unordered_map<std::string, bool> visitados;
+	bool tiene_ciclo = false;
+	
+	dfs(this->grafo, this->primer_nodo, visitados, anteriores, &tiene_ciclo);
 
-	int resultado = dfs(this->grafo, this->primer_nodo, visitados, anteriores);
+	int resultado = OK;
 
 	if (this->grafo.size() != visitados.size()) resultado = NODOS_SIN_VISITAR;
+	if (tiene_ciclo) resultado = BUCLE;
 
 	return resultado;
 }

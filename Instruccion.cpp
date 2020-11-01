@@ -25,16 +25,8 @@ static bool esRet(const std::string& opcode) {
 	return (opcode == RET_OPCODE);
 }
 
-static bool esJmp2Args(const std::string& opcode, 
-						std::list<std::string>& argumentos) {
-	if (esJmp(opcode)) {
-		size_t tam = argumentos.size();
-		if (tam == 2) {
-			return true;
-		}
-	}
-
-	return false;
+static bool esJmp2Args(const std::list<std::string>& argumentos) {
+	return (argumentos.size() == 2);
 }
 
 Instruccion::Instruccion(const std::string& _linea,
@@ -70,8 +62,8 @@ void Instruccion::conectar(const std::vector<Instruccion>& instrucciones,
 	if (!instrucciones.empty()) {
 		Instruccion ultima_instruccion = instrucciones.back();
 		
-		if (!esJmp2Args(ultima_instruccion.opcode,
-			ultima_instruccion.argumentos) &&
+		if ((!esJmp(ultima_instruccion.opcode) ||
+			esJmp2Args(ultima_instruccion.argumentos)) &&
 			!esRet(ultima_instruccion.opcode)) {
 			grafo.agregarArista(ultima_instruccion.linea, this->linea);
 		}
