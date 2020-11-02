@@ -1,5 +1,6 @@
 #include "AnalizadorInstruccion.h"
 #include "Instruccion.h"
+#include <list>
 
 #define RET_OPCODE "ret"
 #define VACIO ""
@@ -45,7 +46,6 @@ void obtenerSaltos(const std::string& linea,
 
 
 Instruccion AnalizadorInstruccion::identificar(const std::string& linea) {
-
 	std::string etiqueta, opcode;
 	std::list<std::string> argumentos;
 	std::size_t pos_inicio = 0;
