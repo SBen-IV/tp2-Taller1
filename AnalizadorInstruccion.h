@@ -10,7 +10,6 @@ public:
 	AnalizadorInstruccion();
 	Instruccion identificar(const std::string& linea);
 	~AnalizadorInstruccion();
-	
 };
 
 #endif

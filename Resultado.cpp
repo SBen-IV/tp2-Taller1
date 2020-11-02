@@ -23,7 +23,6 @@ void Resultado::agregar(const std::string& nombre_archivo,
 }
 
 void Resultado::imprimir() {
-
 	HashOrdenado::iterator it_resultados = this->resultados.begin();
 
 	for(; it_resultados != this->resultados.end(); ++it_resultados) {

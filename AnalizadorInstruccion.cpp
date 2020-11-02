@@ -22,7 +22,7 @@ std::size_t obtenerOpcode(const std::string& linea, std::string& opcode) {
 	std::size_t pos_fin = linea.find(' ');
 
 	if (pos_fin == std::string::npos) {
-		opcode = linea.substr();
+		opcode = linea;
 		pos_fin = linea.length() - 1;
 	} else {
 		opcode = linea.substr(0, pos_fin);

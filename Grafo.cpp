@@ -1,4 +1,5 @@
 #include "Grafo.h"
+#include <utility>
 
 #define NO_EXISTE 0
 #define VACIO ""
@@ -26,7 +27,6 @@ void Grafo::agregarArista(const std::string& nodo_1,
 	lista_de_aristas.push_back(nodo_2);
 	this->grafo[nodo_1] = lista_de_aristas;
 }
-
 
 static bool esNodoAnterior(const std::string& nodo,
 						const std::vector<std::string>& anteriores) {
@@ -56,9 +56,7 @@ static void dfs(Hash& grafo, const std::string& nodo,
 	Lista::iterator it_aristas = aristas.begin();
 
 	for(; it_aristas != aristas.end(); ++it_aristas) {
-		//if (visitados.count((*it_aristas)) == NO_EXISTE) {
-			dfs(grafo, (*it_aristas), visitados, anteriores, tiene_ciclo);
-		//}
+		dfs(grafo, (*it_aristas), visitados, anteriores, tiene_ciclo);
 	}
 
 	anteriores.pop_back();

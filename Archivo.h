@@ -9,7 +9,7 @@ private:
 	std::fstream archivo;
 	std::string nombre_archivo;
 public:
-	Archivo(const std::string nombre, std::ios_base::openmode modo);
+	Archivo(const std::string& nombre, std::ios_base::openmode modo);
 	Archivo(Archivo&& otro);
 	void leer(std::string& linea);
 	bool esEOF();

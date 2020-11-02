@@ -5,6 +5,7 @@ Makefile
 casos/
 salidas/
 Tests/
+cpplint/
 
 #Archivos objeto
 *.o
@@ -17,3 +18,4 @@ tp-tsan
 #Extras
 *.zip
 *.txt
+filter_options

@@ -20,7 +20,6 @@ public:
 	void agregarArista(const std::string& nodo_1, const std::string& nodo_2);
 	int aplicarDFS();
 	~Grafo();
-	
 };
 
 #endif

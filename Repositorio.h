@@ -14,7 +14,6 @@ public:
 	bool estaVacio() const;
 	std::string obtener();
 	~Repositorio();
-	
 };
 
 #endif
