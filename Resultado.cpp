@@ -5,14 +5,15 @@
 #define BUCLE 1
 #define NODOS_SIN_VISITAR 2
 
-const std::string MENSAJE_GOOD = " GOOD";
-const std::string MENSAJE_CYCLE = " FAIL: cycle detected";
-const std::string MENSAJE_UNUSED = " FAIL: unused instructions detected";
+const char MENSAJE_GOOD[] = " GOOD";
+const char MENSAJE_CYCLE[] = " FAIL: cycle detected";
+const char MENSAJE_UNUSED[] = " FAIL: unused instructions detected";
 
-Resultado::Resultado() {}
+Resultado::Resultado(std::mutex& _m) : m(_m) {}
 
 void Resultado::agregar(const std::string& nombre_archivo,
 						const int resultado) {
+	this->m.lock();
 	switch (resultado) {
 		case OK:
 			this->resultados[nombre_archivo] = MENSAJE_GOOD;
@@ -24,6 +25,7 @@ void Resultado::agregar(const std::string& nombre_archivo,
 			this->resultados[nombre_archivo] = MENSAJE_UNUSED;
 		break;
 	}
+	this->m.unlock();
 }
 
 void Resultado::imprimir() {

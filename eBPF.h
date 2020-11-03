@@ -4,11 +4,18 @@
 #include <string>
 #include <vector>
 #include "Archivo.h"
+#include "Grafo.h"
+#include "AnalizadorInstruccion.h"
+#include "Repositorio.h"
+#include "Resultado.h"
 
 class eBPF {
+private:
+	Repositorio& nombres_archivos;
+	Resultado& resultados;
 public:
-	eBPF();
-	int analizar(const std::string& nombre_archivo);
+	eBPF(Repositorio& _nombres_archivos, Resultado& _resultados);
+	void operator()();
 	~eBPF();
 };
 

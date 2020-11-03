@@ -1,23 +1,13 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <thread>
+#include <mutex>
 #include "Repositorio.h"
 #include "eBPF.h"
 #include "Resultado.h"
 
 #define POS_INICIAL 2
-
-static void desarrollar_ebpf(Repositorio& nombres_archivos,
-							Resultado& resultados) {
-	while (!nombres_archivos.estaVacio()) {
-		std::string nombre_archivo_actual = nombres_archivos.obtener();
-
-		eBPF filtro;
-
-		int resultado = filtro.analizar(nombre_archivo_actual);
-
-		resultados.agregar(nombre_archivo_actual, resultado);
-	}
-}
 
 int main(int argc, char const *argv[]) {
 	if (argc < 3) {
@@ -25,14 +15,26 @@ int main(int argc, char const *argv[]) {
 		return 0;
 	}
 
-	Repositorio nombres_archivos;
+	int cant_hilos = std::stoi(argv[1]);
+
+	std::mutex m_repositorio, m_resultado;
+
+	Repositorio nombres_archivos(m_repositorio);
 
 	for (int i = POS_INICIAL; i < argc; i++) {
 		nombres_archivos.agregar(argv[i]);
 	}
-	
-	Resultado resultados;
-	desarrollar_ebpf(nombres_archivos, resultados);
+
+	std::vector<std::thread> threads;
+	Resultado resultados(m_resultado);
+
+	for (int i = 0; i < cant_hilos; ++i) {
+		threads.push_back(std::thread {eBPF(nombres_archivos, resultados)});
+	}
+
+	for (int i = 0; i < cant_hilos; ++i) {
+		threads[i].join();
+	}
 
 	resultados.imprimir();
 
