@@ -36,7 +36,7 @@ Instruccion::Instruccion(const std::string& _linea,
 						linea(_linea), opcode(_opcode), etiqueta(_etiqueta),
 						argumentos(_argumentos) {}
 
-bool Instruccion::tieneEtiqueta(const std::string& etiqueta) {
+bool Instruccion::tieneEtiqueta(const std::string& etiqueta) const {
 	return (this->etiqueta == etiqueta);
 }
 
@@ -44,33 +44,34 @@ std::string Instruccion::getLinea() const {
 	return this->linea;
 }
 
-void Instruccion::saltoA(std::vector<Instruccion>& instrucciones,
-								Grafo& grafo) {
+void Instruccion::saltoA(const std::vector<Instruccion>& instrucciones,
+						const std::size_t pos_actual, Grafo& grafo) {
 	std::list<std::string>::iterator it_saltos = this->argumentos.begin();
-	for(; it_saltos != this->argumentos.end(); ++it_saltos) {
-		std::vector<Instruccion>::iterator it_instruc = instrucciones.begin();
-		for(; it_instruc != instrucciones.end(); ++it_instruc) {
-			if ((*it_instruc).tieneEtiqueta((*it_saltos))) {
-				grafo.agregarArista(this->linea, (*it_instruc).getLinea());
+
+	for (; it_saltos != this->argumentos.end(); ++it_saltos) {
+		for (size_t i = 0; i < instrucciones.size(); ++i) {
+			if (instrucciones[i].tieneEtiqueta((*it_saltos))) {
+				grafo.agregarArista(pos_actual, i);
 			}
 		}
 	}
 }
 
 void Instruccion::conectar(const std::vector<Instruccion>& instrucciones,
-					std::vector<Instruccion>& jmps, Grafo& grafo) {
+					std::vector<std::size_t>& jmps, Grafo& grafo) {
+	std::size_t pos_actual = instrucciones.size();
 	if (!instrucciones.empty()) {
 		Instruccion ultima_instruccion = instrucciones.back();
 		
 		if ((!esJmp(ultima_instruccion.opcode) ||
 			esJmp2Args(ultima_instruccion.argumentos)) &&
 			!esRet(ultima_instruccion.opcode)) {
-			grafo.agregarArista(ultima_instruccion.linea, this->linea);
+			grafo.agregarArista(pos_actual - 1, pos_actual);
 		}
 	}
 
 	if (esJmp(this->opcode)) {
-		jmps.push_back((*this));
+		jmps.push_back(pos_actual);
 	}
 }
 

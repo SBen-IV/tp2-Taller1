@@ -1,5 +1,6 @@
 #include "Grafo.h"
 #include <utility>
+#include <unordered_map>
 
 #define NO_EXISTE 0
 #define VACIO ""
@@ -10,26 +11,21 @@
 
 Grafo::Grafo() {}
 
-void Grafo::agregarNodo(const std::string& nodo) {
-	if (this->grafo.count(nodo) == NO_EXISTE) {
-		Lista lista_de_aristas = {};
-		this->grafo[nodo] = std::move(lista_de_aristas);
-		if (this->primer_nodo == VACIO) this->primer_nodo = nodo;
-	}
+void Grafo::agregarNodo(const std::string& _nodo) {
+	Lista lista_de_aristas = {};
+	Nodo nodo(_nodo, lista_de_aristas);
+	this->grafo.push_back(std::move(nodo));
 }
 
-void Grafo::agregarArista(const std::string& nodo_1,
-							const std::string& nodo_2) {
-	if (this->grafo.count(nodo_1) == NO_EXISTE ||
-		this->grafo.count(nodo_2) == NO_EXISTE) return;
+void Grafo::agregarArista(const std::size_t nodo_1,
+							const std::size_t nodo_2) {
+	if (this->grafo.size() < nodo_1 || this->grafo.size() < nodo_2) return;
 
-	Lista lista_de_aristas = this->grafo[nodo_1];
-	lista_de_aristas.push_back(nodo_2);
-	this->grafo[nodo_1] = lista_de_aristas;
+	this->grafo[nodo_1].agregarValor(nodo_2);
 }
 
-static bool esNodoAnterior(const std::string& nodo,
-						const std::vector<std::string>& anteriores) {
+static bool esNodoAnterior(const std::size_t& nodo,
+						const std::vector<std::size_t>& anteriores) {
 	bool resultado = false;
 
 	for (size_t i = 0; i < anteriores.size() && !resultado; ++i) {
@@ -39,9 +35,9 @@ static bool esNodoAnterior(const std::string& nodo,
 	return resultado;
 }
 
-static void dfs(Hash& grafo, const std::string& nodo,
-				std::unordered_map<std::string, bool>& visitados,
-				std::vector<std::string>& anteriores,
+static void dfs(Nodos& grafo, const std::size_t nodo,
+				std::unordered_map<std::size_t, bool>& visitados,
+				std::vector<std::size_t>& anteriores,
 				bool* tiene_ciclo) {
 	if (esNodoAnterior(nodo, anteriores)) {
 		*tiene_ciclo = true;
@@ -51,7 +47,7 @@ static void dfs(Hash& grafo, const std::string& nodo,
 	visitados[nodo] = true;
 	anteriores.push_back(nodo);
 
-	Lista aristas = grafo[nodo];
+	Lista aristas = grafo[nodo].obtenerValor();
 
 	Lista::iterator it_aristas = aristas.begin();
 
@@ -59,15 +55,15 @@ static void dfs(Hash& grafo, const std::string& nodo,
 		dfs(grafo, (*it_aristas), visitados, anteriores, tiene_ciclo);
 	}
 
-	anteriores.pop_back();
+	anteriores.pop_back(); 
 }
 
 int Grafo::aplicarDFS() {
-	std::vector<std::string> anteriores;
-	std::unordered_map<std::string, bool> visitados;
+	std::vector<std::size_t> anteriores;
+	std::unordered_map<std::size_t, bool> visitados;
 	bool tiene_ciclo = false;
 	
-	dfs(this->grafo, this->primer_nodo, visitados, anteriores, &tiene_ciclo);
+	dfs(this->grafo, 0, visitados, anteriores, &tiene_ciclo);
 
 	int resultado = OK;
 

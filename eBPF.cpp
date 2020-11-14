@@ -14,7 +14,8 @@ eBPF::eBPF(Repositorio& _nombres_archivos, Resultado& _resultados) :
 static int analizar(const std::string& nombre_archivo) {
 	std::fstream archivo(nombre_archivo, std::fstream::in);
 	std::string linea;
-	std::vector<Instruccion> instrucciones, jmps;
+	std::vector<Instruccion> instrucciones;
+	std::vector<std::size_t> jmps; 
 	Grafo grafo;
 
 	while (!archivo.eof()) {
@@ -33,10 +34,9 @@ static int analizar(const std::string& nombre_archivo) {
 		}
 	}
 
-	std::vector<Instruccion>::iterator it_jmps = jmps.begin();
-
-	for(; it_jmps != jmps.end(); ++it_jmps) {	
-		(*it_jmps).saltoA(instrucciones, grafo);
+	for (std::size_t i = 0; i < jmps.size(); ++i) {
+		std::size_t pos_jmp = jmps[i];
+		instrucciones[pos_jmp].saltoA(instrucciones, pos_jmp, grafo);
 	}
 
 	return grafo.aplicarDFS();
