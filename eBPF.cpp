@@ -1,4 +1,5 @@
 #include <iterator>
+#include <fstream>
 #include "eBPF.h"
 #include "Grafo.h"
 #include "AnalizadorInstruccion.h"
@@ -11,13 +12,13 @@ eBPF::eBPF(Repositorio& _nombres_archivos, Resultado& _resultados) :
 			nombres_archivos(_nombres_archivos), resultados(_resultados) {}
 
 static int analizar(const std::string& nombre_archivo) {
-	Archivo archivo(nombre_archivo, std::fstream::in);
+	std::fstream archivo(nombre_archivo, std::fstream::in);
 	std::string linea;
 	std::vector<Instruccion> instrucciones, jmps;
 	Grafo grafo;
 
-	while (!archivo.esEOF()) {
-		archivo.leer(linea);
+	while (!archivo.eof()) {
+		std::getline(archivo, linea);
 
 		if (linea != VACIO) {
 			grafo.agregarNodo(linea);
