@@ -1,9 +1,10 @@
 #include "Repositorio.h"
 
-Repositorio::Repositorio(std::mutex& _m) : m(_m) {}
-
-void Repositorio::agregar(const std::string& nombre) {
-	this->nombres.push(nombre);
+Repositorio::Repositorio(char const *nombre_archivos[],
+						int cant_nombre_archivos) {
+	for (int i = 0; i < cant_nombre_archivos; ++i) {
+		this->nombres.push(nombre_archivos[i]);
+	}
 }
 
 bool Repositorio::estaVacio() const {
@@ -11,10 +12,8 @@ bool Repositorio::estaVacio() const {
 }
 
 std::string Repositorio::obtener() {
-	this->m.lock();
 	std::string aux = this->nombres.front();
 	this->nombres.pop();
-	this->m.unlock();
 
 	return aux;
 }

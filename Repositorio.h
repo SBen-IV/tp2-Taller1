@@ -3,17 +3,17 @@
 
 #include <queue>
 #include <string>
-#include <mutex>
 
 class Repositorio {
 private:
 	std::queue<std::string> nombres;
-	std::mutex& m;
 public:
-	Repositorio();
-	Repositorio(std::mutex& _m);
+	Repositorio(char const *nombre_archivos[],
+				int cant_nombre_archivos);
+	Repositorio(const Repositorio& otro) = delete;
+	Repositorio& operator=(const Repositorio& otro) = delete;
 	Repositorio(Repositorio&& otro) = delete;
-	void agregar(const std::string& nombre);
+	Repositorio& operator=(Repositorio&& otro) = delete;
 	bool estaVacio() const;
 	std::string obtener();
 	~Repositorio();

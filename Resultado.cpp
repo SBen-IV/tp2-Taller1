@@ -9,11 +9,10 @@ const char MENSAJE_GOOD[] = " GOOD";
 const char MENSAJE_CYCLE[] = " FAIL: cycle detected";
 const char MENSAJE_UNUSED[] = " FAIL: unused instructions detected";
 
-Resultado::Resultado(std::mutex& _m) : m(_m) {}
+Resultado::Resultado() {}
 
 void Resultado::agregar(const std::string& nombre_archivo,
 						const int resultado) {
-	this->m.lock();
 	switch (resultado) {
 		case OK:
 			this->resultados[nombre_archivo] = MENSAJE_GOOD;
@@ -25,7 +24,6 @@ void Resultado::agregar(const std::string& nombre_archivo,
 			this->resultados[nombre_archivo] = MENSAJE_UNUSED;
 		break;
 	}
-	this->m.unlock();
 }
 
 void Resultado::imprimir() {

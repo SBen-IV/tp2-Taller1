@@ -19,3 +19,4 @@ tp-tsan
 *.zip
 *.txt
 filter_options
+*.sh
