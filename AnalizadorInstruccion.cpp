@@ -44,7 +44,6 @@ void obtenerSaltos(const std::string& linea,
 	} while (pos_inicio != std::string::npos);
 }
 
-
 Instruccion AnalizadorInstruccion::identificar(const std::string& linea) {
 	std::string etiqueta, opcode;
 	std::list<std::string> argumentos;

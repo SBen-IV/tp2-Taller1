@@ -1,5 +1,7 @@
 #include "Nodo.h"
 
+#include <utility>
+
 #define VACIO ""
 
 Nodo::Nodo(const std::string& _clave, std::list<std::size_t>& _valor) :
