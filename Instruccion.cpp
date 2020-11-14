@@ -4,10 +4,10 @@
 
 typedef std::vector<std::string> VectorString;
 
-const VectorString JUMP_OPCODE = {"jmp", "ja", "jeq",\
-									"jneq", "jne", "jlt",\
-									"jle", "jgt", "jge", "jset"};
-const std::size_t LARGO_JMP = JUMP_OPCODE.size();
+static const VectorString JUMP_OPCODE = {"jmp", "ja", "jeq",\
+										"jneq", "jne", "jlt",\
+										"jle", "jgt", "jge", "jset"};
+static const std::size_t LARGO_JMP = JUMP_OPCODE.size();
 
 static bool esJmp(const std::string& opcode) {
 	bool es_jmp = false;
