@@ -13,7 +13,6 @@ private:
 public:
 	explicit RepositorioProtected(Repositorio& _nombres_archivos);
 	std::string obtenerSiNoEstaVacio();
-	bool estaVacio();
 	~RepositorioProtected();
 };
 

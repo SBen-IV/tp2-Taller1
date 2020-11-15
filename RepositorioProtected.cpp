@@ -14,10 +14,4 @@ std::string RepositorioProtected::obtenerSiNoEstaVacio() {
 	return nombre_archivo;
 }
 
-bool RepositorioProtected::estaVacio() {
-	std::unique_lock<std::mutex> lock(this->m);
-
-	return this->nombres_archivos.estaVacio();
-}
-
 RepositorioProtected::~RepositorioProtected() {}

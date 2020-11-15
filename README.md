@@ -14,11 +14,9 @@ El trabajo práctico presentado corresponde a un programa que puede leer archivo
 
 ### eBPF
 
-#TODO
-
 ![eBPF class](diagramas/eBPF_class.png)
 
-eBPF es la clase que maneja todo el comportamiento del programa y las demás clases. Es en el método `operator()` donde está el bucle que va tomando los archivos uno a uno y analizándolos para luego guardar los resultados de los mismos.
+eBPF es la clase que maneja todo el comportamiento del programa y las demás clases. Es en el método `operator()` donde está el bucle que va tomando los archivos uno a uno y analizándolos para luego guardar los resultados de los mismos. Las clases `ResultadoProtected` y `RepositorioProtected` se encargan de proteger a los recursos compartidos (`Resultado` y `Respositorio` respectivamente) entre los threads.
 
 ### Grafo
 
@@ -30,4 +28,4 @@ Grafo es la clase que contiene las conexiones entre las lineas como nodos y aris
 
 ![Instruccion class](diagramas/Instruccion_class.png)
 
-Instruccion es una clase contenedora de la linea que se obtiene del archivo y además tiene por separado las partes que componen a la línea como lo son la etiqueta, opcode y los argumentos. `conectar()` agrega aristas desde el último nodo al nodo actual en caso de ser necesario, además si la instrucción actual es un `jmp` lo agrega al vector de `jmps`. Este vector será usado más adelante para buscar las etiquetas a los que los `jmps` saltan.
+Instruccion es una clase contenedora de la linea que se obtiene del archivo,  separada por las partes que la componen, como lo son la etiqueta, opcode y los argumentos. `conectar()` agrega aristas desde el último nodo al nodo actual en caso de ser necesario, además si la instrucción actual es un `jmp` lo agrega al vector de `jmps`. Este vector será usado más adelante para buscar las etiquetas a los que los `jmps` saltan.
