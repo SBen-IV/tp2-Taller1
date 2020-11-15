@@ -4,7 +4,7 @@
 
 #define VACIO ""
 
-Nodo::Nodo(const std::string& _clave, std::list<std::size_t>& _valor) :
+Nodo::Nodo(const std::string& _clave, const std::list<std::size_t>& _valor) :
 			clave(_clave), valor(_valor) {}
 
 

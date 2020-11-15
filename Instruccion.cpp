@@ -40,10 +40,6 @@ bool Instruccion::tieneEtiqueta(const std::string& etiqueta) const {
 	return (this->etiqueta == etiqueta);
 }
 
-std::string Instruccion::getLinea() const {
-	return this->linea;
-}
-
 void Instruccion::saltoA(const std::vector<Instruccion>& instrucciones,
 						const std::size_t pos_actual, Grafo& grafo) {
 	std::list<std::string>::iterator it_saltos = this->argumentos.begin();

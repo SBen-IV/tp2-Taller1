@@ -49,9 +49,3 @@ Instruccion AnalizadorInstruccion::identificar(const std::string& _linea) {
 AnalizadorInstruccion::AnalizadorInstruccion() {}
 
 AnalizadorInstruccion::~AnalizadorInstruccion() {}
-/*
-	std::size_t pos_inicio = 0;
-
-	pos_inicio += obtenerEtiqueta(linea, etiqueta);
-	pos_inicio += obtenerOpcode(&linea[pos_inicio], opcode);
-	obtenerSaltos(&linea[pos_inicio], argumentos);*/

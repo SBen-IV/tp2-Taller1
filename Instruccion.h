@@ -19,7 +19,6 @@ public:
 				const std::list<std::string>& _argumentos);
 	void conectar(const std::vector<Instruccion>& instrucciones,
 					std::vector<std::size_t>& jmps, Grafo& grafo);
-	std::string getLinea() const;
 	void saltoA(const std::vector<Instruccion>& instrucciones,
 				const std::size_t pos_actual, Grafo& grafo);
 	~Instruccion();

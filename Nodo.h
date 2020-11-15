@@ -11,7 +11,7 @@ private:
 	std::string clave;
 	std::list<std::size_t> valor;
 public:
-	Nodo(const std::string& _clave, std::list<std::size_t>& _valor);
+	Nodo(const std::string& _clave, const std::list<std::size_t>& _valor);
 	Nodo& operator=(const Nodo& otro) = delete;
 	Nodo(const Nodo& otro) = delete;
 	Nodo& operator=(Nodo&& otro);

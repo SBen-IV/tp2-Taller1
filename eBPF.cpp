@@ -8,7 +8,8 @@
 
 #define VACIO ""
 
-eBPF::eBPF(Repositorio& _nombres_archivos, Resultado& _resultados) :
+eBPF::eBPF(RepositorioProtected& _nombres_archivos,
+			ResultadoProtected& _resultados) :
 			nombres_archivos(_nombres_archivos), resultados(_resultados) {}
 
 static int analizar(const std::string& nombre_archivo) {
@@ -43,12 +44,16 @@ static int analizar(const std::string& nombre_archivo) {
 }
 
 void eBPF::operator()() {
+	std::string nombre_archivo_actual;
+
 	while (!this->nombres_archivos.estaVacio()) {
-		std::string nombre_archivo_actual = this->nombres_archivos.obtener();
+		nombre_archivo_actual = this->nombres_archivos.obtenerSiNoEstaVacio();
+
+		if (nombre_archivo_actual == VACIO) break;
 
 		int resultado = analizar(nombre_archivo_actual);
 
-		resultados.agregar(nombre_archivo_actual, resultado);
+		this->resultados.agregar(nombre_archivo_actual, resultado);
 	}
 }
 

@@ -3,17 +3,19 @@
 
 #include <string>
 #include <vector>
+
 #include "Grafo.h"
 #include "AnalizadorInstruccion.h"
-#include "Repositorio.h"
-#include "Resultado.h"
+#include "RepositorioProtected.h"
+#include "ResultadoProtected.h"
 
 class eBPF {
 private:
-	Repositorio& nombres_archivos;
-	Resultado& resultados;
+	RepositorioProtected& nombres_archivos;
+	ResultadoProtected& resultados;
 public:
-	eBPF(Repositorio& _nombres_archivos, Resultado& _resultados);
+	eBPF(RepositorioProtected& _nombres_archivos,
+		ResultadoProtected& _resultados);
 	void operator()();
 	~eBPF();
 };
