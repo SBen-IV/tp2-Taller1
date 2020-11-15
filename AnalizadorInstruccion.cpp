@@ -40,7 +40,7 @@ Instruccion AnalizadorInstruccion::identificar(const std::string& _linea) {
 	linea >> opcode;
 	obtenerArgumentos(linea, argumentos);
 
-	Instruccion instruccion(_linea, etiqueta, opcode, argumentos);
+	Instruccion instruccion(etiqueta, opcode, argumentos);
 
 	return instruccion;
 }

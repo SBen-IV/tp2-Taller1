@@ -29,11 +29,10 @@ static bool esJmp2Args(const std::list<std::string>& argumentos) {
 	return (argumentos.size() == 2);
 }
 
-Instruccion::Instruccion(const std::string& _linea,
-						const std::string& _etiqueta,
+Instruccion::Instruccion(const std::string& _etiqueta,
 						const std::string& _opcode, 
 						const std::list<std::string>& _argumentos) :
-						linea(_linea), opcode(_opcode), etiqueta(_etiqueta),
+						opcode(_opcode), etiqueta(_etiqueta),
 						argumentos(_argumentos) {}
 
 bool Instruccion::tieneEtiqueta(const std::string& etiqueta) const {

@@ -9,13 +9,11 @@
 
 class Instruccion {
 private:
-	const std::string linea;
 	const std::string opcode;
 	const std::string etiqueta;
 	std::list<std::string> argumentos;
 public:
-	Instruccion(const std::string& _linea, const std::string& _etiqueta,
-				const std::string& _opcode, 
+	Instruccion(const std::string& _etiqueta, const std::string& _opcode,
 				const std::list<std::string>& _argumentos);
 	void conectar(const std::vector<Instruccion>& instrucciones,
 					std::vector<std::size_t>& jmps, Grafo& grafo);
