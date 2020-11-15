@@ -46,11 +46,8 @@ static int analizar(const std::string& nombre_archivo) {
 void eBPF::operator()() {
 	std::string nombre_archivo_actual;
 
-	while (!this->nombres_archivos.estaVacio()) {
-		nombre_archivo_actual = this->nombres_archivos.obtenerSiNoEstaVacio();
-
-		if (nombre_archivo_actual == VACIO) break;
-
+	while ((nombre_archivo_actual = this->nombres_archivos.\
+			obtenerSiNoEstaVacio()) != VACIO) {
 		int resultado = analizar(nombre_archivo_actual);
 
 		this->resultados.agregar(nombre_archivo_actual, resultado);

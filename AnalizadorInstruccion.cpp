@@ -16,7 +16,6 @@ static void obtenerEtiqueta(std::istringstream& linea,
 	}
 }
 
-
 static void obtenerArgumentos(std::istringstream& linea, 
 								std::list<std::string>& argumentos) {
 	std::string aux;
